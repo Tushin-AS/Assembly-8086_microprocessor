@@ -27,11 +27,11 @@ main proc
     mov bl, al
     sub bl, 30h        ; Convert ASCII to actual number (0-9)
 
-    cmp cl, bl
+    cmp cl, bl  ; CL ? BL
 
-    je Correct_Text
-    jl Less_than_Text   ; if BL < CL
-    jg Grater_than_Text ; if BL > CL
+    je Correct_Text     ; if CL = BL
+    jl Grater_than_Text ; if CL < BL
+    jg Less_than_Text   ; if CL > BL
 
 Correct_Text:
     mov ah, 09h
@@ -39,15 +39,15 @@ Correct_Text:
     int 21h
     jmp Exit
 
-Grater_than_Text:
+Grater_than_Text:   ; IF MY GUESS IS GRATER THAN THE CORRECT ANSWER
     mov ah, 09h
-    lea dx, msg3
+    lea dx, msg2
     int 21h
     jmp Exit
 
-Less_than_Text:
+Less_than_Text:     ; IF MY GUESS IS LESS THAN THE CORRECT ANSWER
     mov ah, 09h
-    lea dx, msg2
+    lea dx, msg3
     int 21h
     jmp Exit
 
