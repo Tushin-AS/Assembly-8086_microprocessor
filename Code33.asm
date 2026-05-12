@@ -1,0 +1,69 @@
+.MODEL SMALL
+.STACK 100H
+
+.DATA
+    MSG1 DB 'ENTER A STRING: $'
+    MSG2 DB 0DH, 0AH, 'VOWEL COUNT: $'
+
+.CODE
+MAIN PROC 
+    MOV AX, @DATA
+    MOV DS, AX
+
+    MOV AH, 09H
+    LEA DX, MSG1
+    INT 21H
+
+    MOV BL, 0
+
+INPUT_LOOP:
+    MOV AH, 01H
+    INT 21H
+
+    CMP AL, 0DH
+    JE END_LOOP
+
+    CMP AL, 'A'
+    JE IS_VOWEL
+    CMP AL, 'E'
+    JE IS_VOWEL
+    CMP AL, 'I'
+    JE IS_VOWEL
+    CMP AL, 'O'
+    JE IS_VOWEL
+    CMP AL, 'U'
+    JE IS_VOWEL
+
+    CMP AL, 'a'
+    JE IS_VOWEL
+    CMP AL, 'e'
+    JE IS_VOWEL
+    CMP AL, 'i'
+    JE IS_VOWEL
+    CMP AL, 'o'
+    JE IS_VOWEL
+    CMP AL, 'u'
+    JE IS_VOWEL
+
+    JMP INPUT_LOOP
+
+IS_VOWEL:
+    INC BL
+    JMP INPUT_LOOP
+
+END_LOOP:
+    MOV AH, 09H
+    LEA DX, MSG2
+    INT 21H
+
+    ADD BL, 30H
+
+    MOV AH, 02H
+    MOV DL, BL
+    INT 21H
+
+    MOV AH, 4CH
+    INT 21H
+
+    MAIN ENDP
+END MAIN
